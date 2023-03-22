@@ -2,12 +2,22 @@ import unittest
 from webtest import TestApp
 
 from app import main
+from views import home, index_view
 
 
 class ProjectorFunctionalTests(unittest.TestCase):
     def setUp(self):
         app = main()
         self.testapp = TestApp(app)
+
+    def test_home(self):
+        result = home({})
+        self.assertEqual(result['greet'], 'Welcome')
+        self.assertEqual(result['name'], 'Alex')
+
+    def test_index(self):
+        result = index_view({})
+        self.assertEqual(result, {})
 
     def test_it(self):
         res = self.testapp.get('/', status=200)

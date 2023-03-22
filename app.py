@@ -1,21 +1,14 @@
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
-from pyramid.view import view_config
-
-
-@view_config(
-    route_name='home',
-    renderer='templates/home.jinja2'
-)
-def home(request):
-    return {"greet": 'Welcome', "name": 'Alexander'}
 
 
 def main():
     config = Configurator()
     config.include('pyramid_jinja2')
+    config.add_jinja2_renderer('.html')
     config.add_route('home', '/')
-    config.scan()
+    config.add_route('index', 'index/')
+    config.scan('views')
     return config.make_wsgi_app()
 
 
