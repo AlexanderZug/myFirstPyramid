@@ -19,6 +19,10 @@ class ProjectorFunctionalTests(unittest.TestCase):
         result = index_view({})
         self.assertEqual(result, {})
 
+    def test_notfound(self):
+        res = self.testapp.get('/notfound', status=404)
+        self.assertEqual(res.body, b'Not Found')
+
     def test_it(self):
         res = self.testapp.get('/', status=200)
         self.assertTrue(b'Welcome' in res.body)
