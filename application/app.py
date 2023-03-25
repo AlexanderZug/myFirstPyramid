@@ -6,8 +6,10 @@ def main():
     config = Configurator()
     config.include('pyramid_jinja2')
     config.add_jinja2_renderer('.html')
-    config.add_route(name='home', pattern='/')
-    config.add_route(name='index', pattern='/index/')
+    config.add_static_view('static', 'application:static')
+    config.add_route('user', '/{name}/{age}/')
+    config.add_route('create', '/')
+    config.add_route('list', '/students')
     config.scan('views')
     return config.make_wsgi_app()
 

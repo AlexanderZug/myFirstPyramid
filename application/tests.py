@@ -2,7 +2,6 @@ import unittest
 from webtest import TestApp
 
 from app import main
-from views import home, index_view
 
 
 class ProjectorFunctionalTests(unittest.TestCase):
@@ -10,22 +9,23 @@ class ProjectorFunctionalTests(unittest.TestCase):
         app = main()
         self.testapp = TestApp(app)
 
-    def test_home(self):
-        result = home({})
-        self.assertEqual(result['greet'], 'Welcome')
-        self.assertEqual(result['name'], 'Alex')
+    def test_user(self):
+        request = self.testapp.get('/alex/20/', status=200)
+        self.assertTrue(b'20' in request.body)
+        self.assertTrue(b'alex' in request.body)
 
-    def test_index(self):
-        result = index_view({})
-        self.assertEqual(result, {})
+    def test_student(self):
+        request = self.testapp.post('/students/', params={
+            'id': 4,
+            'name': 'Alex',
+            'percent': 90
+        }, status=200)
+        self.assertTrue(b'Alex' in request.body)
+        self.assertTrue(b'90' in request.body)
 
     def test_notfound(self):
-        res = self.testapp.get('/notfound', status=404)
-        self.assertEqual(res.body, b'Not Found')
-
-    def test_it(self):
-        res = self.testapp.get('/', status=200)
-        self.assertTrue(b'Welcome' in res.body)
+        request = self.testapp.get('/notfound/')
+        self.assertTrue(b'Try again a little later' in request.body)
 
 
 if __name__ == '__main__':
