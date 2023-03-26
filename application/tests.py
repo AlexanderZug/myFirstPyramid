@@ -15,7 +15,7 @@ class ProjectorFunctionalTests(unittest.TestCase):
         self.assertTrue(b'alex' in request.body)
 
     def test_student(self):
-        request = self.testapp.post('/students/', params={
+        request = self.testapp.post('/students', params={
             'id': 4,
             'name': 'Alex',
             'percent': 90
@@ -23,8 +23,13 @@ class ProjectorFunctionalTests(unittest.TestCase):
         self.assertTrue(b'Alex' in request.body)
         self.assertTrue(b'90' in request.body)
 
+    def test_login(self):
+        request = self.testapp.get('/login', status=200)
+        print(request.body)
+        self.assertTrue(b'User' in request.body)
+
     def test_notfound(self):
-        request = self.testapp.get('/notfound/')
+        request = self.testapp.get('/notfound')
         self.assertTrue(b'Try again a little later' in request.body)
 
 

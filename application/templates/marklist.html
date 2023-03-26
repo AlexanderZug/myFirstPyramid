@@ -1,30 +1,28 @@
 <html>
-   <link rel="stylesheet" type="text/css" href="{{ request.static_url('application:static/style.css') }}">
+   <link rel="stylesheet" type="text/css" href="../static/style.css">
 <body>
-   <table border=1>
-      <thead>
+<table border=1>
+   <thead>
+      <tr>
+         <th>Student ID</th>
+         <th>Student Name</th>
+         <th>percentage</th>
+         <th>Edit</th>
+         <th>Delete</th>
+      </tr>
+   </thead>
+   <tbody>
+      {% for Student in students %}
          <tr>
-            <th>Student ID</th> <th>Student Name</th>
-            <th>percentage</th>
-            <th>Result</th>
+         <td>{{ Student.id }}</td>
+         <td>{{ Student.name }}</td>
+         <td>{{ Student.percent }}</td>
+         <td><a href="/show/{{ Student.id }}">edit</a></td>
+         <td><a href="/delete/{{ Student.id }}">delete</a></td>
          </tr>
-      </thead>
-      <tbody>
-         {% for Student in students %}
-            <tr>
-               <td>{{ Student.id }}</td>
-               <td>{{ Student.name }}</td>
-               <td>{{ Student.percent }}</td>
-               <td>
-                  {% if Student.percent>=50 %}
-                  Pass
-                  {% else %}
-                  Fail
-                  {% endif %}
-               </td>
-            </tr>
-         {% endfor %}
-      </tbody>
-   </table>
-</body>
+      {% endfor %}
+   </tbody>
+</table>
+<h3><a href="{{ request.route_url('index') }}">Add new</a></h3>
+   </body>
 </html>
