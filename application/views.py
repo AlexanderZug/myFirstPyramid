@@ -1,7 +1,5 @@
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
-from pyramid.events import NewRequest
-from pyramid.events import subscriber
 
 from app import session
 from models import Students
@@ -70,12 +68,6 @@ class Student:
         ).first() is not None:
             return True
         return False
-
-
-@subscriber(NewRequest)
-def add_base_url(event):
-    event.request.base_url = event.request.application_url
-    print(event.request.application_url)
 
 
 @view_config(
